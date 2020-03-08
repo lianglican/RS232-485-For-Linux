@@ -1,9 +1,5 @@
 /******************************************************************************
-
-  Copyright (C), 2018, xxxxxxxxx.
-
- ******************************************************************************
-  File Name     : commfunction.c
+  File Name     : commfunction.cpp
   Version       : 
   Author        : Lianglican
   Created       : 2018/12/18

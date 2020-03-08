@@ -1,8 +1,6 @@
 /******************************************************************************
-  Copyright (C), 2019-2099, Zhuhai WanLiDa Electrical Automation Co., Ltd.
- ******************************************************************************
   File Name     : commfunction.h
-  Description   : UI和APP公用的通用函数接口
+  Description   : 通用函数接口
   Author        : LiangLiCan
   Created       : 2019/6/6
   History       :

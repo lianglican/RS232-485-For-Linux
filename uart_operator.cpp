@@ -1,6 +1,6 @@
 /******************************************************************************
-  File Name     : rs485_operation.cpp
-  Description   : RS485相关操作
+  File Name     : uart_operator.cpp
+  Description   : 串口相关操作
   Author        : LiangLiCan
   Created       : 2019/06/26
   History       :

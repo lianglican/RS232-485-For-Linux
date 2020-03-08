@@ -38,8 +38,7 @@ CHumitureManager::CHumitureManager(const WD_C8 *pTtyDevPath, const SERIAL_S *pst
 
 /*******************************************
 * Function Name : AddSendFrameToList
-* Parameter     : pData是用户要发送的数据,不包含地址码功能码和CRC的数据
-                  bWrites是否是写寄存器
+* Parameter     : enAddr是寄存器地址, bWrites是否是写寄存器
 * Description   : 构建一帧完整的485数据，包括地址、功能码、CRC的赋值,并加入到发送链表中去
 * Return Value  : On success, 0 is returned.  
                   錯誤返回非0.
@@ -55,7 +54,7 @@ WD_S32 CHumitureManager::AddSendFrameToList(REGISTER_ADD_E enAddr, WD_U16 u16Rea
     WD_U8 aFrameHead[8] = {0};
     WD_S32 ret = 0;
     WD_U16 u16Temp = enAddr;
-    aFrameHead[SFI_DEST_ADDR] = m_u8SensorAdd;
+    aFrameHead[SFI_DEST_ADDR] = m_u8SensorAdd; // 总线上的设备地址
     aFrameHead[SFI_MSG_TYPE]  = bWrite ? MT_WRITE : MT_READ;
     ShortToChar(u16Temp, &aFrameHead[SFI_REG_ADDR], true);
     
@@ -65,7 +64,7 @@ WD_S32 CHumitureManager::AddSendFrameToList(REGISTER_ADD_E enAddr, WD_U16 u16Rea
     else {
         ShortToChar(u16ReadNum, &aFrameHead[SFI_REG_PARM], true);
     }
-    
+    // 填充CRC
     ShortToChar(createCrcCode(aFrameHead, 6), &aFrameHead[SFI_CRC]);    
     pNode = (WD_U8 *)malloc(sizeof(aFrameHead)); /* 发送线程会free掉它 */
     memcpy(pNode, aFrameHead, sizeof(aFrameHead));
@@ -77,13 +76,12 @@ WD_S32 CHumitureManager::AddSendFrameToList(REGISTER_ADD_E enAddr, WD_U16 u16Rea
     }
     m_pSendBufList.push_back(pNode);
     m_SendBufLock.UnLock();
-    //DBG_HUMI_PRINT(LEVEL_ERROR, "Add Frame To List\n");
     return ret;
 }
 
 WD_VOID CHumitureManager::handleMsg(WD_U8 *pMsgData, WD_U32 )
 {
-    if(pMsgData[RFI_DEST_ADDR] != 0x1){
+    if(pMsgData[RFI_DEST_ADDR] != 0x1){// 判断有效性
         return ;
     }
     

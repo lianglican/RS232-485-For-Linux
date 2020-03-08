@@ -1,8 +1,6 @@
 /******************************************************************************
-  Copyright (C), 2019-2099, Zhuhai WanLiDa Electrical Automation Co., Ltd.
- ******************************************************************************
-  File Name     : rs485_operator.h
-  Description   : RS485相关操作
+  File Name     : uart_operator.h
+  Description   : 串口相关操作
   Author        : LiangLiCan
   Created       : 2019/06/26
   History       :
